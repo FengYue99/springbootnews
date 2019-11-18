@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>新闻管理系统</title>
+	<style type="text/css">
+		.top{
+			position:absolute;
+			 top:0px;
+			 left:0px;
+			 width:100%;
+			 height:20%;
+			 border: 5px solid;
+			}
+		.left{
+			 position:absolute;
+			 top:20%;
+			 left:0px;
+			 width:20%;
+			 height:100%;
+			 border: 5px solid;
+			 }
+		.right{ 
+			 position:absolute;
+			 top:20%;
+			 left:20%;
+			 width:80%;
+			 height:100%;
+			 border: 5px solid;
+		}
+		li{
+			list-style: none;
+		}
+	</style>
+  </head>
+  <body>
+  	<div class="par">
+  		<div class="top" align="center">
+	 		<h1>欢迎${user.name}登录</h1><p>
+	 		<a href="/user/out">退出</a>
+  		</div>
+    	<div class="left">
+    		<ul>
+    			<#if user.role.powers as p>
+                    <li><a href="${p.url!''}" target="right">${p.name!""}</a></li>
+                </#if>
+    		</ul>
+    	</div>
+    	<div class="right">
+    		<!-- 定义一个frame框架,在点击超链接的时候可以让超链接的页面显示在该框架下 -->
+    		<iframe name="right"  frameborder="0" height="100%" width="100%">
+    		</iframe>
+    	</div>
+    </div>
+  </body>
+</html>

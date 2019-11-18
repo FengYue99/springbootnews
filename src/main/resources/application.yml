@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    username: java38
+    password: 123456
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    driver-class-name: oracle.jdbc.OracleDriver
+  #关于freemarker配置
+  freemarker:
+    suffix: .html
+    #关闭缓存
+    cache: false
+    #更改数字格式
+    settings:
+      number_format: 0.##
+  profiles:
+    active: dev
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  #扫描实体类，取别名
+  type-aliases-package: com.zl.pojo
+#日志所在位置
+logging:
+  config: classpath:log4j2.xml

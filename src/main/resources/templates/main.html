@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>主页</title>
+</head>
+<body>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<style type="text/css">
+    td {
+        border: 1px solid black;
+    }
+    a {
+        text-decoration: none;
+    }
+</style>
+<script type="text/javascript">
+    function dele() {
+        var all = document.getElementById("all").value;
+        var ids = document.getElementById("ids").value;
+        if (all != null || ids != null) {
+            alert("未选中数据")
+        } else {
+            confirm('是否确定全部删除')
+        }
+    }
+    $(function () {
+        var i=0;
+        //全选
+        $("#all").on("click",function(){
+            if(i==0){
+                //把所有复选框选中
+                $("input:checkbox[name=ids]").prop("checked", true);
+                i=1;
+            }else{
+                $("input:checkbox[name=ids]").prop("checked", false);
+                i=0;
+            }
+        });
+    });
+</script>
+</head>
+<body>
+    <div align="center">
+        <p/>
+        欢迎${user.name}登录
+        <form action="/news/show" method="get">
+            标题：<input type="text" name="query.title" value="<#if paging.query??>${paging.query.title!''}</#if>">&nbsp;
+            发布开始时间：<input type="date" name="query.qStartNewsDate" value="<#if paging.query?? && paging.query.qStartNewsDate??>${paging.query.qStartNewsDate?string('yyyy-MM-dd')}</#if>">&nbsp;
+            发布结束时间：<input type="date" name="query.qEndNewsDate" value="<#if paging.query?? && paging.query.qEndNewsDate??>${paging.query.qEndNewsDate?string('yyyy-MM-dd')}</#if>">&nbsp;
+            <input type="submit" value="搜索">
+        </form><p/>
+        <form action="/news/delete" method="post" onsubmit="return confirm('是否确定全部删除')">
+            <table style="border: 1px solid black">
+                <tr>
+                    <td><input type="checkbox" id="all">全选</td>
+                    <td>id</td>
+                    <td>新闻编号</td>
+                    <td>新闻标题</td>
+                    <td>新闻内容</td>
+                    <td>新闻作者</td>
+                    <td>发布时间</td>
+                    <td>新闻类型</td>
+                    <td>新闻图片</td>
+                    <td>删除</td>
+                    <td>修改</td>
+                </tr>
+
+                <#list news as n>
+                    <tr>
+                        <td><input type="checkbox" name="ids" value="${n.id}"></td>
+                        <td>${n.id!""}
+                        </td>
+                        <td>${n.newsId!""}
+                        </td>
+                        <td>${n.title!""}
+                        </td>
+                        <td>${n.context!""}
+                        </td>
+                        <td>${n.newsMan!""}
+                        </td>
+                        <td>
+                            <#if n.newsDate??>
+                                ${n.newsDate?string("yyyy-MM-dd")}
+                            </#if>
+                        </td>
+                        <td>${n.typeId!""}
+                        </td>
+                        <td>
+                            <img src="${n.pic!''}">
+                        </td>
+                        <td><a href="/news/delete?ids=${n.id}" onclick="return confirm('是否确定删除？')">删除</a></td>
+                        <td><a href="/news/toUpdate?id=${n.id}">修改</a></td>
+                    </tr>
+                </#list>
+            </table>
+            <p/>
+            <input type="submit" value="全部删除">
+            <a href="/news/toAdd"><input type="button" value="添加新闻信息"></a>
+        </form>
+
+        <a href="/news/show?query.title=<#if paging.query??>${paging.query.title!''}</#if>&query.qStartNewsDate=<#if paging.query?? && paging.query.qStartNewsDate??>${paging.query.qStartNewsDate?string('yyyy-MM-dd')}</#if>&query.qEndNewsDate=<#if paging.query?? && paging.query.qEndNewsDate??>${paging.query.qEndNewsDate?string('yyyy-MM-dd')}</#if>&page=1">首页</a>
+        <#if paging.page<=1>
+            上一页
+        <#else>
+            <a href="/news/show?query.title=<#if paging.query??>${paging.query.title!''}</#if>&query.qStartNewsDate=<#if paging.query?? && paging.query.qStartNewsDate??>${paging.query.qStartNewsDate?string('yyyy-MM-dd')}</#if>&query.qEndNewsDate=<#if paging.query?? && paging.query.qEndNewsDate??>${paging.query.qEndNewsDate?string('yyyy-MM-dd')}</#if>&page=${paging.page-1}">上一页</a>
+        </#if>
+
+        <#if paging.page=paging.pageSum || paging.pageSum=0>
+            下一页
+        <#else>
+            <a href="/news/show?query.title=<#if paging.query??>${paging.query.title!''}</#if>&query.qStartNewsDate=<#if paging.query?? && paging.query.qStartNewsDate??>${paging.query.qStartNewsDate?string('yyyy-MM-dd')}</#if>&query.qEndNewsDate=<#if paging.query?? && paging.query.qEndNewsDate??>${paging.query.qEndNewsDate?string('yyyy-MM-dd')}</#if>&page=${paging.page+1}">下一页</a>
+        </#if>
+        <a href="/news/show?query.title=<#if paging.query??>${paging.query.title!''}</#if>&query.qStartNewsDate=<#if paging.query?? && paging.query.qStartNewsDate??>${paging.query.qStartNewsDate?string('yyyy-MM-dd')}</#if>&query.qEndNewsDate=<#if paging.query?? && paging.query.qEndNewsDate??>${paging.query.qEndNewsDate?string('yyyy-MM-dd')}</#if>&page=${paging.pageSum}">尾页</a>
+        &nbsp;总页数&nbsp;${paging.pageSum}
+        &nbsp;当前第${paging.page}页
+        一共查询出${paging.stripSum}条数据
+    </div>
+</body>
+</html>

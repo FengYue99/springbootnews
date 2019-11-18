@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加新闻</title>
+</head>
+
+<body>
+<form action="/news/add" method="post" enctype="multipart/form-data">
+    id：<input type="text" name="id"><p />
+    新闻编号：<input type="text" name="newsId"><p />
+    新闻标题：<input type="text" name="title"><p />
+    新闻内容：<input type="text" name="context"><p />
+    新闻作者：<input type="text" name="newsMan"><p />
+    发布时间：<input type="date" name="newsDate"><p />
+    新闻类型：<select name="typeId">
+        <#list types as t>
+            <option value="${t.typeId}">${t.typeName}</option>
+        </#list>
+</select><p />
+    新闻图片：<input type="file" name="imgPic"><p />
+    <input type="submit" value="添加">
+</form>
+</body>
+</html>
