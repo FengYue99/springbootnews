@@ -12,8 +12,14 @@ spring:
     #更改数字格式
     settings:
       number_format: 0.##
+  #使用什么环境
   profiles:
     active: dev
+  #配置redis
+  redis:
+    host: 10.1.13.164
+    port: 6379
+    database: 0
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   #扫描实体类，取别名
